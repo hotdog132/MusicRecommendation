@@ -4,3 +4,28 @@ pipeline:
     commands:
       - go build
       - go test
+
+  publish:
+    # when:
+    #   event: push
+    #   branch: staging
+    image: plugins/docker
+    pull: true
+    repo: quay.io/hotdog132/musicrecommendation
+    registry: quay.io
+    tags:
+      - ${DRONE_COMMIT_SHA:0:8}
+    # settings:
+      # repo: quay.io/hotdog132/musicrecommendation
+      # auto_tag: true
+      # username:
+      #   from_secret: docker_username
+      # password:
+      #   from_secret: docker_password
+    secrets:
+      - docker_username
+      - docker_password
+    #   - docker_registry
+    # build_args:
+      # - GIT_COMMIT_HASH=${DRONE_COMMIT_SHA}
+      # - HABITAT_ENV=staging
